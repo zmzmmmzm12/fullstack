@@ -11,10 +11,13 @@ export const initialState={
         },
         content: '첫번째 게시글 #해시태그 #익스프레스',
         Images:[{
-            src:'https://photos.google.com/photo/AF1QipNQ3sMlT1-FfEICKbFLTOQA1x1b2SQ4gdpK9eaz'
+            src:'https://cdn.pixabay.com/photo/2016/03/28/12/35/cat-1285634_1280.png'
         },
         {
-            src: 'https://photos.google.com/photo/AF1QipO1wBOTbbCcNja-4guF1bAGLJYnbXmuqi5tVlGn'
+            src: 'https://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554_960_720.jpg'
+        },
+        {
+            src: 'https://cdn.pixabay.com/photo/2014/04/13/20/49/cat-323262_1280.jpg'
         }],
         Comments:[{
             User:{

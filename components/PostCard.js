@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import PostImages from './PostImages';
 import {useCallback, useState} from 'react';
 import CommentForm from './CommentForm';
+import PostCardContent from './PostCardContent';
 
 const PostCard=({post})=>{
     const {me}=useSelector((state)=>state.userReducer);
@@ -24,7 +25,7 @@ const PostCard=({post})=>{
     return(
         <div style={{marginBottom:20}}>
             <Card
-                corver={post.Images[0] && <PostImages images={post.Images}/>}
+                cover={post.Images[0] && <PostImages images={post.Images}/>}
                 actions={[
                     <RetweetOutlined key="retweet"/>,
                     liked
@@ -48,7 +49,7 @@ const PostCard=({post})=>{
                 <Card.Meta
                     avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
                     title={post.User.nickname}
-                    description={post.content}
+                    description={<PostCardContent postData={post.content}/>}
                 />
             </Card>
             {commentFormOpened &&
