@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 //개별 컴포넌트에서 공통인 경우 레이아웃을 만들어서 감싸기
 const AppLayout=({ children })=>{
 
-    const isLoggedIn=useSelector(state => state.user.isLoggedIn);
+    const isLoggedIn=useSelector((state) => state.userReducer.isLoggedIn);
     
     return(
         <div>
