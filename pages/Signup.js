@@ -3,11 +3,16 @@ import Head from 'next/head';
 import {Form, Input, Checkbox, Button} from 'antd';
 import {useCallback, useState, useMemo} from 'react';
 import useInput from '../hooks/useInput';
+import { SIGN_UP_REQUEST } from '../reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Signup=()=>{
-    const [id,onChangeId]=useInput('');
+    const dispatch=useDispatch();
+    const {signUpLoading} = useSelector((state)=>state.userReducer);
+
+    const [email,onChangeEmail]=useInput('');
     const [pw,onChangePw]=useInput('');
-    const [nick,onChangeNick]=useInput('');
+    const [nickname,onChangeNickname]=useInput('');
 
     const [pwCheck,setPwCheck]=useState('');
     const [pwError,setPwError]=useState(false);
@@ -30,8 +35,11 @@ const Signup=()=>{
         if(!term){
             return setTermError(true);
         }
-        console.log(id,nick,pw);
-    }, [pw,pwCheck,term]);
+        dispatch({
+            type: SIGN_UP_REQUEST,
+            data:{email,pw,nickname}
+        });
+    }, [email,pw,pwCheck,term, nickname]);
 
     const errorStyle=useMemo(()=>({
         color:'red'
@@ -45,14 +53,14 @@ const Signup=()=>{
         <AppLayout>
             <Form onFinish={onSubmit}>
                 <div>
-                    <label htmlFor='user-id'>아이디</label>
+                    <label htmlFor='user-email'>이메일</label>
                     <br/>
-                    <Input name='user-id' value={id} required onChange={onChangeId}/>
+                    <Input type="email" name='user-email' value={email} required onChange={onChangeEmail}/>
                 </div>
                 <div>
-                    <label htmlFor='user-nick'>닉네임</label>
+                    <label htmlFor='user-nickname'>닉네임</label>
                     <br/>
-                    <Input name='user-nick' value={nick} required onChange={onChangeNick}/>
+                    <Input name='user-nickname' value={nickname} required onChange={onChangeNickname}/>
                 </div>
                 <div>
                     <label htmlFor='user-pw'>비밀번호</label>
@@ -72,7 +80,7 @@ const Signup=()=>{
                     {termError && <div style={errorStyle}>약관에 동의하셔야 합니다.</div>}
                 </div>
                 <div>
-                    <Button type="primary" htmlType="submit">가입하기</Button>
+                    <Button type="primary" htmlType="submit" loading={signUpLoading}>가입하기</Button>
                 </div>
             </Form>
         </AppLayout>
