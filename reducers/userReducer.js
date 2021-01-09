@@ -18,6 +18,16 @@ export const initialState={
     changeNicknameDone:false, //닉네임 변경 성공
     changeNicknameError:null, //닉네임 변경 실패
 
+    followLoading: false, //팔로우 시도중
+    followDone:false, //팔로우 성공
+    followError:null, //팔로우 실패
+
+    unfollowLoading: false, //언팔로우 시도중
+    unfollowDone:false, //언팔로우 성공
+    unfollowError:null, //언팔로우 실패
+
+    
+
     me:null,
     signUpData:{},
     loginData:{}
@@ -106,6 +116,42 @@ export const signupRequestAction=()=>{
 const userReducer=(state=initialState,action)=>{
     return produce(state,(draft)=>{
         switch(action.type){
+            case FOLLOW_REQUEST:
+                draft.followLoading=true;
+                draft.followDone=false;
+                draft.followError=null;
+                break;
+
+            case FOLLOW_SUCCESS:
+                draft.followLoading=false;
+                draft.followDone=true;
+                draft.me.Followings.push({id:action.data});
+                break;
+
+            case FOLLOW_FAILURE:
+                draft.followLoading=false;
+                draft.followDone=false;
+                draft.followError=action.error;
+                break;
+
+            case UNFOLLOW_REQUEST:
+                draft.unfollowLoading=true;
+                draft.unfollowDone=false;
+                draft.unfollowError=null;
+                break;
+
+            case UNFOLLOW_SUCCESS:
+                draft.unfollowLoading=false;
+                draft.unfollowDone=true;
+                draft.me.Followings=draft.me.Followings.filter((v)=>v.id!==action.data)
+                break;
+
+            case UNFOLLOW_FAILURE:
+                draft.unfollowLoading=false;
+                draft.unfollowDone=false;
+                draft.unfollowError=action.error;
+                break;
+
             case LOG_IN_REQUEST:
                 draft.isLoggingIn=true;
                 draft.isLoggedIn=false;
@@ -127,6 +173,7 @@ const userReducer=(state=initialState,action)=>{
             case LOG_OUT_REQUEST:
                 draft.isLoggingOut=true;
                 draft.isLoggedOut=false;
+                draft.isLoggedIn=false;
                 draft.logOutError=null;
                 break;
 

@@ -9,6 +9,7 @@ import {useCallback, useState} from 'react';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
 import { REMOVE_POST_REQUEST } from '../reducers/postReducer';
+import FollowButton from './FollowButton';
 
 const PostCard=({post})=>{
     const {me}=useSelector((state)=>state.userReducer);
@@ -54,6 +55,7 @@ const PostCard=({post})=>{
                         <EllipsisOutlined />
                     </Popover>
                 ]}
+                extra={id&& <FollowButton post={post}/>}
             >
                 <Card.Meta
                     avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
@@ -83,6 +85,7 @@ const PostCard=({post})=>{
     )
 }
 PostCard.proptypes={
+    //object로 한번에 묶는 것보다 shape로 풀어서 써주는게 좋음
     post:PropTypes.shape({
         id: PropTypes.number,
         user:PropTypes.object,

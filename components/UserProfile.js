@@ -1,12 +1,20 @@
 import {Card, Avatar, Button} from 'antd';
-import { useCallback } from 'react'; 
+import { useCallback,useEffect } from 'react'; 
 import {useDispatch, useSelector} from 'react-redux';
 import {logoutRequestAction} from '../reducers/userReducer';
+import Router from 'next/router';
 
 const userProfile=()=>{
     const dispatch=useDispatch();
-
     const{me,isLoggingOut}=useSelector((state)=>state.userReducer);
+   console.log(me);
+    
+    useEffect(()=>{
+        if(!(me&&me.id)){
+            Router.push('/');
+        }
+    }, [me&&me.id]);
+    
 
     const onLogOut=useCallback(()=>{
         dispatch(logoutRequestAction());
